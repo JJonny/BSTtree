@@ -74,22 +74,22 @@ void insert(Node **head, int &value)
 
 Node *getMinNode(Node *tmp)
 {
-	while (tmp->right)
+	/*while (tmp->left)
 	{
-		tmp = tmp->right;
-	}
+		tmp = tmp->left;
+	}*/
 
-	return tmp;
+	return tmp->left ? getMinNode(tmp->left) : tmp;
 }
 
 Node *getMaxNode(Node *tmp)
 {
-	while (tmp->right)
+	/*while (tmp->right)
 	{
 		tmp = tmp->right;
-	}
+	}*/
 
-	return tmp;
+	return tmp->right ? getMaxNode(tmp->right) : tmp;
 }
 
 void remove(Node *target)
@@ -139,26 +139,21 @@ void remove(Node *target)
 
 void deleteNode(Node *head, int &value)
 {
-	if (head == nullptr)
+	if (!head)
+		return ;
+	
+	if (value < head->data)
 	{
-		return;
+		deleteNode(head->left, value);
 	}
-		
-	while (head)
+	else if (value > head->data)
 	{
-		if (value == head->data)		
-		{
-			remove(head);
-			return;
-		}
-		else if (value > head->data)
-		{
-			head = head->right;
-		}
-		else if (value < head->data)
-		{
-			head = head->left;
-		}
+		deleteNode(head->right, value);
+	}
+	else if (value == head->data)
+	{
+		remove(head);
+		return;
 	}
 }
 
@@ -185,7 +180,7 @@ int main()
 	}
 
 	int delValue = 43;
-	//deleteNode(tree, delValue);
+	deleteNode(tree, delValue);
 
 	travers(tree);
 
