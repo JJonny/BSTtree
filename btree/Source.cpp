@@ -73,22 +73,12 @@ void insert(Node **head, int &value)
 
 
 Node *getMinNode(Node *tmp)
-{
-	/*while (tmp->left)
-	{
-		tmp = tmp->left;
-	}*/
-
+{	
 	return tmp->left ? getMinNode(tmp->left) : tmp;
 }
 
 Node *getMaxNode(Node *tmp)
 {
-	/*while (tmp->right)
-	{
-		tmp = tmp->right;
-	}*/
-
 	return tmp->right ? getMaxNode(tmp->right) : tmp;
 }
 
@@ -167,10 +157,114 @@ void travers(Node *root)
 	}
 }
 
+void leftRotate(Node **root)
+{
+	Node *parent = nullptr;
+	Node *a = nullptr;
+	Node *b = nullptr;
+	Node *c = nullptr;
+
+	a = (*root);
+	parent = a->parent;
+	b = a->right;
+
+	if (b == nullptr)
+	{
+		return;
+	}
+	
+	c = b->left;
+	b->left = a;
+	a->right = c;
+	if (c)
+	{
+		c->parent = a;
+	}
+	b->parent = parent;
+
+	if (parent)
+	{
+		if (parent->left == a)
+		{
+			parent->left = b;
+		}
+		else
+		{
+			parent->right = b;
+		}
+	}
+	a->parent = b;
+	if (!parent)
+	{
+		*root = (*root)->parent;
+	}	
+}
+
+void rigthRotate(Node **root)
+{
+	Node *parent = nullptr;
+	Node *a = nullptr;
+	Node *b = nullptr;
+	Node *c = nullptr;
+
+	b = (*root);
+	parent = b->parent;
+	a = b->left;
+	if (a == nullptr)
+	{
+		return;
+	}
+
+	c = a->right;
+	a->right = b;
+	b->left = c;
+	if (c)
+	{
+		c->parent = b;
+	}
+
+	a->parent = parent;
+	if (parent)
+	{
+		if (parent->left == b)
+		{
+			parent->left = a;
+		}
+		else
+		{
+			parent->right = a;
+		}
+	}
+	b->parent = a;
+
+	(*root) = (*root)->parent;
+}
+
+Node* findNodeByValue(Node *root, int &value)
+{	
+	while (root)
+	{
+		if (value < root->data)
+		{
+			root = root->left;
+		}
+		else if (value > root->data)
+		{
+			root = root->right;
+		}
+		else if (value == root->data)
+		{
+			return root;
+		}
+	}
+	return nullptr;
+}
+
 int main()
 {		
-	const int n = 14;
-	int ms[n] = { 50, 48, 49, 43, 44, 20, 3, 23, 24, 59, 63, 61, 68, 25 };
+	const int n = 9;
+	//int ms[n] = { 50, 48, 49, 43, 44, 20, 3, 23, 24, 59, 63, 61, 68, 25 };
+	int ms[n] = { 50, 30, 60, 25, 35, 55, 70, 75, 65 };
 
 	Node *tree = nullptr;
 
@@ -179,13 +273,17 @@ int main()
 		insert(&tree, ms[i]);
 	}
 
-	int delValue = 43;
-	deleteNode(tree, delValue);
+	
 
-	travers(tree);
+	int value = 60;
+	//deleteNode(tree, delValue);
 
-
-
-
+	Node *tmp = findNodeByValue(tree, value);
+	if (tmp)
+		//rigthRotate(&tmp);
+		leftRotate(&tmp);
+	
+	//travers(tree);
+	
 	return 0;
 }
