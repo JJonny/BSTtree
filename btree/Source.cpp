@@ -157,7 +157,7 @@ void travers(Node *root)
 	}
 }
 
-void leftRotate(Node **root)
+void leftToRightRotate(Node **root)
 {
 	Node *parent = nullptr;
 	Node *a = nullptr;
@@ -194,13 +194,12 @@ void leftRotate(Node **root)
 		}
 	}
 	a->parent = b;
-	if (!parent)
-	{
-		*root = (*root)->parent;
-	}	
+	
+	(*root) = (*root)->parent;
+		
 }
 
-void rigthRotate(Node **root)
+void rigthToLeftRotate(Node **root)
 {
 	Node *parent = nullptr;
 	Node *a = nullptr;
@@ -281,7 +280,7 @@ int main()
 	Node *tmp = findNodeByValue(tree, value);
 	if (tmp)
 		//rigthRotate(&tmp);
-		leftRotate(&tmp);
+		leftToRightRotate(&tmp);
 	
 	//travers(tree);
 	
