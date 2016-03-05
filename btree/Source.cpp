@@ -241,22 +241,12 @@ void rigthToLeftRotate(Node **root)
 
 Node* findNodeByValue(Node *root, int &value)
 {	
-	while (root)
-	{
-		if (value < root->data)
-		{
-			root = root->left;
-		}
-		else if (value > root->data)
-		{
-			root = root->right;
-		}
-		else if (value == root->data)
-		{
-			return root;
-		}
-	}
-	return nullptr;
+	if (!root || value == root->data)
+		return root;
+	if (value < root->data)
+		return findNodeByValue(root->left, value);
+	else
+		return findNodeByValue(root->right, value);
 }
 
 int main()
@@ -277,9 +267,10 @@ int main()
 	int value = 60;
 	//deleteNode(tree, delValue);
 
+	
 	Node *tmp = findNodeByValue(tree, value);
-	if (tmp)
-		//rigthRotate(&tmp);
+	//if (tmp)
+	//	//rigthRotate(&tmp);
 		leftToRightRotate(&tmp);
 	
 	//travers(tree);
