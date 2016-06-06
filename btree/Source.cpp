@@ -239,6 +239,7 @@ void rigthToLeftRotate(Node **root)
 	(*root) = (*root)->parent;
 }
 
+
 Node* findNodeByValue(Node *root, int &value)
 {	
 	if (!root || value == root->data)
@@ -249,11 +250,37 @@ Node* findNodeByValue(Node *root, int &value)
 		return findNodeByValue(root->right, value);
 }
 
+
+void insertionSort(int a[], const int len)
+{
+	int key;
+	int i;
+	for (int j = 1; j < len; j++)
+	{
+		key = a[j];
+		i = j - 1;
+		while (i > -1 && a[i] > key)
+		{
+			a[i + 1] = a[i];
+			--i;
+		}
+		a[i + 1] = key;
+	}
+
+	int m[9] = {};
+	for (int i = 0; i < len; i++)
+	{
+		m[i] = a[i];
+	}
+}
+
+
 int main()
 {		
 	const int n = 9;
 	//int ms[n] = { 50, 48, 49, 43, 44, 20, 3, 23, 24, 59, 63, 61, 68, 25 };
 	int ms[n] = { 50, 30, 60, 25, 35, 55, 70, 75, 65 };
+	insertionSort(ms, n);
 
 	Node *tree = nullptr;
 
